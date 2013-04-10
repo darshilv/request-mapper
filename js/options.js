@@ -9,7 +9,7 @@ $(function () {
         this.$app = $('#app');
         this.$form = $('#form');
 
-        this.mappers = [];
+        this.mappers = {};
 
         // Templates ////////////////////
 
@@ -27,6 +27,7 @@ $(function () {
 
         // Local Storage ////////////////////
 
+        console.log(localStorage.getItem('requestMapper'));
 
         // Events ////////////////////
 
@@ -43,7 +44,25 @@ $(function () {
 
         }
 
-        return template;
+        return $.trim(template);
+
+    }
+
+    App.prototype.loadMappers = function () {
+
+        
+
+    }
+
+    App.prototype.saveMapper = function (id) {
+
+        console.log(id);
+
+    }
+
+    App.prototype.removeMapper = function (id) {
+
+        
 
     }
 
@@ -51,14 +70,35 @@ $(function () {
 
         e.preventDefault();
 
-        var template = this.templates['form-row'],
+        var _this = this,
+            template = this.templates['form-row'],
             mapperID = new Date().getTime();
 
-        this.$form.append(this.template(template, {
+        // Mapper UI ////////////////////
+
+        var $mapper = $(this.template(template, {
             id: 'mapper' + mapperID
         }));
 
-        this.mappers.push(mapperID);
+        this.$form.append($mapper);
+
+        // Events ////////////////////
+
+        $mapper.on('click', '.btn.save', function (e) {
+
+            e.preventDefault();
+
+            _this.saveMapper(mapperID);
+
+        });
+
+        // Mapper ////////////////////
+
+        this.mappers[mapperID] = {
+            id: mapperID
+        };
+
+        //console.log(this.mappers);
 
     }
 

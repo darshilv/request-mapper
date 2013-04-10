@@ -36,14 +36,16 @@
 
     </div>
 
+    <!-- TEMPLATES -->
+
     <script type="template" data-template-id="form-row">
-        <div class="controls controls-row" id="{{id}}">
-            <div class="btn-group span 2">
-                <button class="btn"><i class="icon-ok"></i> Save</button>
-                <button class="btn"><i class="icon-ban-circle"></i> Remove</button>
-            </div>
+        <div class="controls controls-row" data-mapper-id="{{id}}">
             <input class="span4" type="text" placeholder="Find" />
             <input class="span4" type="text" placeholder="Replace" />
+            <div class="btn-group span 2">
+                <button class="btn save"><i class="icon-ok"></i> Save</button>
+                <button class="btn remove"><i class="icon-ban-circle"></i> Remove</button>
+            </div>
         </div>
     </script>
     
