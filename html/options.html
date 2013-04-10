@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>Request Mapper</title>
+    
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="../css/options.css" />
+
+    <script src="../js/lib/jquery.min.js"></script>
+    <script src="../js/options.js"></script>
+
+</head>
+
+<body id="app">
+    
+    <div class="container">
+
+        <h1>Request Mapper</h1>
+    
+        <form id="form">
+            <legend>
+                Options
+                <div class="btn-group" style="float: right;">
+                    <button class="btn btn-primary new"><i class="icon-plus icon-white"></i> New</button>
+                </div>
+            </legend>
+        </form>
+
+    </div>
+
+    <script type="template" data-template-id="form-row">
+        <div class="controls controls-row" id="{{id}}">
+            <div class="btn-group span 2">
+                <button class="btn"><i class="icon-ok"></i> Save</button>
+                <button class="btn"><i class="icon-ban-circle"></i> Remove</button>
+            </div>
+            <input class="span4" type="text" placeholder="Find" />
+            <input class="span4" type="text" placeholder="Replace" />
+        </div>
+    </script>
+    
+</body>
+
+</html>
