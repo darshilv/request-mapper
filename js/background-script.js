@@ -1,30 +1,35 @@
 (function () {
 
-    var baseURL = 'https://secure.slic.dev/assets';
+    var mappers, storedMappers;
 
-    var urlMatches = {
-        js: new RegExp('.*\\/resource\\/1365555934000\\/slic_assets\\/js/'),
-        styles: new RegExp('.*\\/resource\\/1365555934000\\/slic_assets\\/styles/')
-    };
+    storedMappers = window.localStorage.getItem('requestMapper');
 
-    chrome.webRequest.onBeforeRequest.addListener(function (details) {
+    if ( storedMappers !== null && storedMappers !== 'null' ) {
 
-        if ( details.url.match(urlMatches.styles) ) {
+        mappers = JSON.parse(storedMappers);
 
-            return {
-                redirectUrl: details.url.replace(urlMatches.styles, baseURL + '/styles/')
-            };
+        for ( mapper in mappers ) {
+
+            mappers[mapper].findRegEx = new RegExp(mappers[mapper].find);
 
         }
 
-        if ( details.url.match(urlMatches.js) ) {
+        chrome.webRequest.onBeforeRequest.addListener(function (details) {
 
-            return {
-                redirectUrl: details.url.replace(urlMatches.js, baseURL + '/js/')
-            };
+            for ( mapper in mappers ) {
 
-        }
+                if ( details.url.match(mappers[mapper].findRegEx) ) {
 
-    }, { urls: ['<all_urls>'] }, ['blocking']);
+                    return {
+                        redirectUrl: details.url.replace(mappers[mapper].findRegEx, mappers[mapper].replace)
+                    };
+
+                }
+
+            }
+
+        }, { urls: ['<all_urls>'] }, ['blocking']);
+
+    }
 
 })();

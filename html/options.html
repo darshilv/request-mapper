@@ -24,7 +24,7 @@
     <div class="container">
 
         <h1>Request Mapper</h1>
-    
+        
         <form id="form">
             <legend>
                 Options
@@ -39,10 +39,10 @@
     <!-- TEMPLATES -->
 
     <script type="template" data-template-id="form-row">
-        <div class="controls controls-row" data-mapper-id="{{id}}">
-            <input class="span4" type="text" placeholder="Find" />
-            <input class="span4" type="text" placeholder="Replace" />
-            <div class="btn-group span 2">
+        <div class="controls controls-row" id="{{id}}">
+            <input class="find span6" type="text" placeholder="Find" />
+            <input class="replace span6" type="text" placeholder="Replace" />
+            <div class="form-action pull-right">
                 <button class="btn save"><i class="icon-ok"></i> Save</button>
                 <button class="btn remove"><i class="icon-ban-circle"></i> Remove</button>
             </div>

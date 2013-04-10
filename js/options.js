@@ -27,11 +27,11 @@ $(function () {
 
         // Local Storage ////////////////////
 
-        console.log(localStorage.getItem('requestMapper'));
+        this.loadMappers();
 
         // Events ////////////////////
 
-        this.$app.on('click', '.new', $.proxy(this.newMapper, this));
+        this.$app.on('click', '.new', $.proxy(this.newMapperAction, this));
 
     }
 
@@ -50,35 +50,98 @@ $(function () {
 
     App.prototype.loadMappers = function () {
 
-        
+        //window.localStorage.setItem('requestMapper', null);
+
+        var storedMappers = window.localStorage.getItem('requestMapper');
+
+        // If there are saved mappers, load them
+        if ( storedMappers !== null && storedMappers !== 'null' ) {
+
+            this.mappers = JSON.parse(storedMappers);
+
+        }
+
+        // Create the UI for the loaded mappers
+        for ( mapper in this.mappers ) {
+
+            this.newMapper(mapper);
+
+        }
+
+    }
+
+    App.prototype.saveMappers = function () {
+
+        window.localStorage.setItem('requestMapper', JSON.stringify(this.mappers));
 
     }
 
     App.prototype.saveMapper = function (id) {
 
-        console.log(id);
+        // Find the DOM element for this mapper
+        $mapper = $('#' + id);
+
+        // Create a new record in the mapper object
+        this.mappers[id] = {
+            id: id
+        };
+
+        // Updated the find/replace fields
+        $.extend(this.mappers[id], {
+            find: $mapper.find('.find').val(),
+            replace: $mapper.find('.replace').val()
+        });
+
+        // Save the mappers
+        this.saveMappers();
 
     }
 
     App.prototype.removeMapper = function (id) {
 
-        
+        // Find the DOM element for this mapper and remove it
+        $mapper = $('#' + id).remove();
+
+        // Delte the mapper
+        delete this.mappers[id];
+
+        // Save the mappers
+        this.saveMappers();
 
     }
 
-    App.prototype.newMapper = function (e) {
+    App.prototype.newMapperAction = function (e) {
 
         e.preventDefault();
 
-        var _this = this,
-            template = this.templates['form-row'],
-            mapperID = new Date().getTime();
+        var id = new Date().getTime();
+
+        this.newMapper(id);
+
+    }
+
+    App.prototype.newMapper = function (id) {
+
+        var _this, template, defaults, mapper, $mapper;
+
+        _this = this;
+        template = this.templates['form-row'];
+
+        defaults = {
+            id: id,
+            find: '',
+            replace: ''
+        };
+
+        mapper = this.mappers[id] === undefined ? {} : this.mappers[id];
+        mapper = $.extend(defaults, mapper);
 
         // Mapper UI ////////////////////
 
-        var $mapper = $(this.template(template, {
-            id: 'mapper' + mapperID
-        }));
+        $mapper = $(this.template(template, mapper));
+
+        $mapper.find('.find').val(mapper.find);
+        $mapper.find('.replace').val(mapper.replace);
 
         this.$form.append($mapper);
 
@@ -88,17 +151,17 @@ $(function () {
 
             e.preventDefault();
 
-            _this.saveMapper(mapperID);
+            _this.saveMapper(id);
 
         });
 
-        // Mapper ////////////////////
+        $mapper.on('click', '.btn.remove', function (e) {
 
-        this.mappers[mapperID] = {
-            id: mapperID
-        };
+            e.preventDefault();
 
-        //console.log(this.mappers);
+            _this.removeMapper(id);
+
+        });
 
     }
 
