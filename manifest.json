@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+
+    "name": "Request Mapper",
+    "description": "This is a test script",
+    "version": "1.0",
+
+    "permissions": [
+        "experimental",
+        "http://*/*",
+        "https://*/*",
+        "file://*/*",
+        "webRequest",
+        "webRequestBlocking"
+    ],
+
+    "background": {
+        "scripts": ["background-script.js"]
+    }
+}
